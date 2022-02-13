@@ -1,0 +1,232 @@
+[
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9 -DIMGUI_IMPL_API=\"extern \\\"C\\\"\" -DIMGUI_IMPL_OPENGL_LOADER_GL3W -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -g -std=gnu++2a -o CMakeFiles/imgui_impl.dir/third_party/cimgui/imgui/backends/imgui_impl_opengl3.cpp.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends/imgui_impl_opengl3.cpp",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends/imgui_impl_opengl3.cpp"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9 -DIMGUI_IMPL_API=\"extern \\\"C\\\"\" -DIMGUI_IMPL_OPENGL_LOADER_GL3W -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -g -std=gnu++2a -o CMakeFiles/imgui_impl.dir/third_party/cimgui/imgui/backends/imgui_impl_sdl.cpp.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends/imgui_impl_sdl.cpp",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends/imgui_impl_sdl.cpp"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -DIMGUI_IMPL_OPENGL_LOADER_GL3W -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -g -std=gnu17 -o CMakeFiles/pixel_engine.dir/src/application/game_loop/game_loop.c.o -c /home/jane/Documents/Projects/pixel_engine/src/application/game_loop/game_loop.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/src/application/game_loop/game_loop.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -DIMGUI_IMPL_OPENGL_LOADER_GL3W -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -g -std=gnu17 -o CMakeFiles/pixel_engine.dir/src/application/main.c.o -c /home/jane/Documents/Projects/pixel_engine/src/application/main.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/src/application/main.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -DIMGUI_IMPL_OPENGL_LOADER_GL3W -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -g -std=gnu17 -o CMakeFiles/pixel_engine.dir/src/engine/cleanup/cleanup.c.o -c /home/jane/Documents/Projects/pixel_engine/src/engine/cleanup/cleanup.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/src/engine/cleanup/cleanup.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -DIMGUI_IMPL_OPENGL_LOADER_GL3W -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -g -std=gnu17 -o CMakeFiles/pixel_engine.dir/src/engine/globals/globals.c.o -c /home/jane/Documents/Projects/pixel_engine/src/engine/globals/globals.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/src/engine/globals/globals.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -DIMGUI_IMPL_OPENGL_LOADER_GL3W -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -g -std=gnu17 -o CMakeFiles/pixel_engine.dir/src/engine/initialize/initialize.c.o -c /home/jane/Documents/Projects/pixel_engine/src/engine/initialize/initialize.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/src/engine/initialize/initialize.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -Dcimgui_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -g -fPIC -std=gnu++2a -o third_party/cimgui/CMakeFiles/cimgui.dir/cimgui.cpp.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cimgui/cimgui.cpp",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/cimgui.cpp"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -Dcimgui_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -g -fPIC -std=gnu++2a -o third_party/cimgui/CMakeFiles/cimgui.dir/imgui/imgui.cpp.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui.cpp",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui.cpp"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -Dcimgui_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -g -fPIC -std=gnu++2a -o third_party/cimgui/CMakeFiles/cimgui.dir/imgui/imgui_demo.cpp.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui_demo.cpp",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui_demo.cpp"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -Dcimgui_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -g -fPIC -std=gnu++2a -o third_party/cimgui/CMakeFiles/cimgui.dir/imgui/imgui_draw.cpp.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui_draw.cpp",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui_draw.cpp"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -Dcimgui_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -g -fPIC -std=gnu++2a -o third_party/cimgui/CMakeFiles/cimgui.dir/imgui/imgui_tables.cpp.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui_tables.cpp",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui_tables.cpp"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9 -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1 -DIMGUI_IMPL_API=\"extern\t\\\"C\\\"\t\" -Dcimgui_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -g -fPIC -std=gnu++2a -o third_party/cimgui/CMakeFiles/cimgui.dir/imgui/imgui_widgets.cpp.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui_widgets.cpp",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/imgui_widgets.cpp"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/euler.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/euler.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/euler.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/affine.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/affine.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/affine.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/io.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/io.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/io.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/quat.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/quat.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/quat.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/cam.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/cam.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/cam.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/vec2.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/vec2.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/vec2.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/vec3.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/vec3.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/vec3.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/vec4.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/vec4.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/vec4.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/mat2.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/mat2.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/mat2.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/mat3.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/mat3.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/mat3.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/mat4.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/mat4.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/mat4.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/plane.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/plane.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/plane.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/frustum.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/frustum.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/frustum.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/box.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/box.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/box.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/project.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/project.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/project.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/sphere.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/sphere.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/sphere.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/ease.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/ease.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/ease.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/curve.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/curve.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/curve.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/bezier.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/bezier.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/bezier.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/ray.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/ray.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/ray.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/affine2d.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/affine2d.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/affine2d.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/persp_lh_zo.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/persp_lh_zo.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/persp_lh_zo.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/persp_rh_zo.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/persp_rh_zo.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/persp_rh_zo.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/persp_lh_no.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/persp_lh_no.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/persp_lh_no.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/persp_rh_no.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/persp_rh_no.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/persp_rh_no.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/ortho_lh_zo.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/ortho_lh_zo.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/ortho_lh_zo.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/ortho_rh_zo.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/ortho_rh_zo.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/ortho_rh_zo.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/ortho_lh_no.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/ortho_lh_no.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/ortho_lh_no.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/ortho_rh_no.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/ortho_rh_no.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/ortho_rh_no.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/view_lh_zo.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/view_lh_zo.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/view_lh_zo.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/view_rh_zo.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/view_rh_zo.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/view_rh_zo.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/view_lh_no.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/view_lh_no.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/view_lh_no.c"
+},
+{
+  "directory": "/home/jane/Documents/Projects/pixel_engine/build",
+  "command": "/bin/x86_64-linux-gnu-gcc-9 -DCGLM_EXPORTS -DIMGUI_IMPL_OPENGL_LOADER_GL3W -Dcglm_EXPORTS -I/usr/local/include/SDL2 -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui -I/home/jane/Documents/Projects/pixel_engine/third_party/cimgui/imgui/backends -I/home/jane/Documents/Projects/pixel_engine/third_party -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/include -I/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src -g -fPIC -Wall -Werror -O3 -std=gnu11 -o third_party/cglm/CMakeFiles/cglm.dir/src/clipspace/view_rh_no.c.o -c /home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/view_rh_no.c",
+  "file": "/home/jane/Documents/Projects/pixel_engine/third_party/cglm/src/clipspace/view_rh_no.c"
+}
+]

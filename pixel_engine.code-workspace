@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"stdio.h": "c",
+			"sdl_vulkan.h": "c",
+			"vulkan.h": "c",
+			"chrono": "c",
+			"algorithm": "c",
+			"cleanup.h": "c",
+			"sdl.h": "c"
+		}
+	}
+}
