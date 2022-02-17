@@ -33,7 +33,9 @@ int main() {
     VkExtent2D swapChainExtent;
     VkImageView *swapChainImageViews;
 
+    VkRenderPass renderPass;
     VkPipelineLayout pipelineLayout;
+    VkPipeline graphicsPipeline;
 
     InitializingInfo initInfo = {
         .pWindow = &window,
@@ -53,7 +55,9 @@ int main() {
         .pSwapChainImageViews = &swapChainImageViews,
         .swapChainImageViewsCount = 0,
 
-        .pPipelineLayout = &pipelineLayout
+        .pRenderPass = &renderPass,
+        .pPipelineLayout = &pipelineLayout,
+        .pGraphicsPipeline = &graphicsPipeline
     };
 
     if (initialize(initInfo) == EXIT_SUCCESS) { printf("Initialized properly!\n"); }

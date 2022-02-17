@@ -22,10 +22,8 @@ bytecodeInfo readShaderBytecode(const char * fileName) {
     long fileSize = ftell(file);
     rewind(file);
 
-    //char buffer[fileSize];
     char * buffer = malloc(fileSize * sizeof(char));
-    // The 'number of elements' argument of this function confuses and scares me but everywhere just puts a 1 in there so we're doing that for now lol
-    fread(buffer, sizeof(buffer), 1, file);
+    fread(buffer, sizeof(char), fileSize, file);
 
     if (fclose(file) != 0) {
         printf("The file failed to close!");

@@ -477,15 +477,96 @@ int createImageViews() {
     return EXIT_SUCCESS;
 }
 
-VkShaderModule createShaderModule(bytecodeInfo info) {
-    uint32_t *code;
-    memcpy(&code, info.code, info.size); // I really hope this works and it doesn't become a huge issue
 
+int createRenderPass() {
+    VkAttachmentDescription colorAttachment = {
+        .format = *initInfo.pSwapChainImageFormat,
+        .samples = VK_SAMPLE_COUNT_1_BIT, // We're not doing anything with multisampling yet, so we will stick to 1 sample for now
+
+        // loadOp and storeOp determine what to do with the data in the attachment before rendering and after rendering
+        /*
+        - VK_ATTACHMENT_LOAD_OP_LOAD: preserve the existing contents of the attachment
+        - VK_ATTACHMENT_LOAD_OP_CLEAR: clear the values to a constant at the start
+        - VK_ATTACHMENT_LOAD_OP_DONT_CARE: existing content are undefined and we don't care about them
+        */
+        .loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR,
+        /*
+        - VK_ATTACHMENT_STORE_OP_STORE: rendered content will be stored in memory and can be read later
+        - VK_ATTACHMENT_STORE_OP_DONT_CARE: content of the framebuffer will be undefined after the rendering operation
+        */
+        .storeOp = VK_ATTACHMENT_STORE_OP_STORE,
+
+        // The loadOp and storeOp apply to color and depth data while the stencilLoadOp and stencilStoreOp apply to the stencil data
+        // Right now we don't do anything with the stencil buffer so the results of loading and storing are irrelevant
+        .stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+        .stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE,
+
+        /*
+        - VK_IMAGE_LAYOUT_UNDEFINED: undefined
+        - VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL: images used as color attachment
+        - VK_IMAGE_LAYOUT_PRESENT_SRC_KHR: images to be present to the swap chain
+        - VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL: images to be used as destination for a memory copy operation
+        */
+        // Specifies which layout the image will have before the render pass begines
+        // We use VK_IMAGE_LAYOUT_UNDEFINED because we don't care what layout the previous image was in
+        // The issue with this is that this does not guarantee the contents of the image to be preserved, but that does not matter since we are going to clear it anyway
+        .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
+        // Specifies which layout to automatically transition to when the render pass finishes
+        // We want the image to be ready for presentation using the swap chain after rendering, which is why we use VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
+        .finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
+    };
+
+    VkAttachmentReference colorAttachmentRef = {
+        // This specifies which attachment to reference by its index in the attachment descriptions array
+        // Since we're not really using an array and are just using one VkAttachmentDescription, we will have this set to 0
+        .attachment = 0,
+        // Specifies which layout we would like the attachment to have during the subpass that uses this reference
+        // Vulkan will automatically transition the attachment to this layout when the subpass is started
+        // We are using this attachment as a color buffer, so VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL will give us the best performance
+        .layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
+    };
+
+    // A single render pass can consist of multiple subpasses. Subpasses are subsequent rendering operations that depend on the contents of framebuffers in previous passes
+    // For example, a sequence of post-processing effects that are applied one after another
+    // If you group these rendering operations into one render pass, then Vulkan is able to reorder the operations and conserve memory bandwidth for possibly better performance
+    // For now though, we will just stick with the single subpass
+    VkSubpassDescription subpass = {
+        // Vulkan may support compute subpasses in the future, so we have to be explicit about this being a graphics subpass
+        .pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS,
+
+        .colorAttachmentCount = 1,
+        // The index of the attachment in this array is directly reference from the fragment shader with the 'layout(location = 0) out vec4 outColor' directive
+        // Here are the other types of attachments that can be referenced by a subpass:
+        /*
+        - pInputAttachments: attachments that are read from a shader
+        - pResolveAttachments: attachments used for multisampling color attachments
+        - pDepthAttachments: attachment for depth and stencil data
+        - pPreserveAttachments: attachments that are not used by this subpass, but for which the data must be preserved
+        */
+        .pColorAttachments = &colorAttachmentRef
+    };
+
+    VkRenderPassCreateInfo renderPassInfo = {
+        .sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
+
+        .attachmentCount = 1,
+        .pAttachments = &colorAttachment,
+
+        .subpassCount = 1,
+        .pSubpasses = &subpass
+    };
+
+    if (vkCreateRenderPass(*initInfo.pDevice, &renderPassInfo, NULL, initInfo.pRenderPass) != VK_SUCCESS) { return EXIT_FAILURE; }
+
+    return EXIT_SUCCESS;
+}
+
+VkShaderModule createShaderModule(bytecodeInfo info) {
     VkShaderModuleCreateInfo createInfo = {
         .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
 
         .codeSize = info.size,
-        .pCode = code
+        .pCode = (uint32_t *)info.code
     };
 
     VkShaderModule shaderModule;
@@ -518,11 +599,8 @@ int createGraphicsPipeline() {
 
     VkPipelineShaderStageCreateInfo shaderStages[] = {
         vertShaderStageInfo,
-        fragShaderModule
+        fragShaderStageInfo
     };
-
-    vkDestroyShaderModule(*initInfo.pDevice, vertShaderModule, NULL);
-    vkDestroyShaderModule(*initInfo.pDevice, fragShaderModule, NULL);
 
 
     VkPipelineVertexInputStateCreateInfo vertexInputInfo = {
@@ -690,8 +768,47 @@ int createGraphicsPipeline() {
     if (vkCreatePipelineLayout(*initInfo.pDevice, &pipelineLayoutInfo, NULL, initInfo.pPipelineLayout) != VK_SUCCESS) { return EXIT_FAILURE; }
 
 
-    //vkDestroyShaderModule(*initInfo.pDevice, vertShaderModule, NULL);
-    //vkDestroyShaderModule(*initInfo.pDevice, fragShaderModule, NULL);
+    VkGraphicsPipelineCreateInfo pipelineInfo = {
+        .sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
+
+        .stageCount = 2,
+        .pStages = shaderStages,
+
+        .pVertexInputState = &vertexInputInfo,
+        .pInputAssemblyState = &inputAssembly,
+        .pViewportState = &viewportState,
+        .pRasterizationState = &rasterizer,
+        .pMultisampleState = &multisampling,
+        .pDepthStencilState = NULL,
+        .pColorBlendState = &colorBlending,
+        .pDynamicState = NULL,
+
+        .layout = *initInfo.pPipelineLayout,
+
+        .renderPass = *initInfo.pRenderPass,
+        // Specifies the index of the sub pass where the graphics pipeline will be used
+        .subpass = 0,
+
+        // Vulkan allows you to create a new graphics pipeline by deriving from an existing pipeline
+        // The idea of pipeline derivatives is that it is less expensive to set up pipelines when they have much functionality in common with an existing pipeline
+        // Switching between pipelines from the same parent can also be done quicker
+        // Right now we of course only have the one pipeline so we specify a null handle and an invalid index
+        // These values are only used if the VK_PIPELINE_CREATE_DERIVATIVE_BIT flag is also specified in the flags field of VkGraphicsPipelineCreateInfo
+        .basePipelineHandle = VK_NULL_HANDLE,
+        .basePipelineIndex = -1
+    };
+
+    // This function can be used to create multiple VkPipeline objects in a single call
+    // The second parameter, for which we've passed VK_NULL_HANDLE, references an optional VkPipelineCache object
+    // A pipeline cache can be used to store and reuse data relevant to pipeline creation across multiple calls to vkCreateGraphicsPipelines and even across program executions if the cache is stored to a file
+    // This makes it possible to significantly speed up pipeline creation at a later time
+    // For now we don't use this feature, but it will most likely be very useful later on
+    if (vkCreateGraphicsPipelines(*initInfo.pDevice, VK_NULL_HANDLE, 1, &pipelineInfo, NULL, initInfo.pGraphicsPipeline) != VK_SUCCESS) { return EXIT_FAILURE; }
+
+
+    // These need to be at the end of this function because the shader modules are still used during the creation of the graphics pipeline
+    vkDestroyShaderModule(*initInfo.pDevice, vertShaderModule, NULL);
+    vkDestroyShaderModule(*initInfo.pDevice, fragShaderModule, NULL);
 
     return EXIT_SUCCESS;
 }
@@ -703,6 +820,7 @@ int initVulkan() {
     if (createLogicalDevice() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createSwapChain() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createImageViews() == EXIT_FAILURE) { return EXIT_FAILURE; }
+    if (createRenderPass() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createGraphicsPipeline() == EXIT_FAILURE) { return EXIT_FAILURE; }
 
     return EXIT_SUCCESS;
