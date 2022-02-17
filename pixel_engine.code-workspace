@@ -12,7 +12,8 @@
 			"chrono": "c",
 			"algorithm": "c",
 			"cleanup.h": "c",
-			"sdl.h": "c"
+			"sdl.h": "c",
+			"globals.h": "c"
 		}
 	}
 }

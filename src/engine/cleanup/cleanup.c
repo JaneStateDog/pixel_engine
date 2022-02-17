@@ -12,6 +12,9 @@ int cleanup(InitializingInfo initInfo) {
     vkDestroySurfaceKHR(*initInfo.pInstance, *initInfo.pSurface, NULL);
     vkDestroyInstance(*initInfo.pInstance, NULL);
     vkDestroySwapchainKHR(*initInfo.pDevice, *initInfo.pSwapChain, NULL);
+    for (int i = 0; i < initInfo.swapChainImageViewsCount; i++) {
+        vkDestroyImageView(*initInfo.pDevice, *initInfo.pSwapChainImageViews[i], NULL);
+    }
     vkDestroyDevice(*initInfo.pDevice, NULL);
 
     SDL_DestroyWindow(*initInfo.pWindow);

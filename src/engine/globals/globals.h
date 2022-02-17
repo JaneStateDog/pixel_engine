@@ -33,7 +33,16 @@ typedef struct {
     VkImage **pSwapChainImages;
     VkFormat *pSwapChainImageFormat;
     VkExtent2D *pSwapChainExtent;
+    VkImageView **pSwapChainImageViews;
+    uint32_t swapChainImageViewsCount;
 } InitializingInfo;
+
+
+typedef struct { 
+    const char * code;
+    long size;
+} bytecodeInfo;
+bytecodeInfo readShaderBytecode(const char * fileName);
 
 
 #endif

@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+
 #include <string.h>
 
 
@@ -442,12 +443,67 @@ int createSwapChain() {
     return EXIT_SUCCESS;
 }
 
+int createImageViews() {
+    initInfo.swapChainImageViewsCount = sizeof(*initInfo.pSwapChainImages) / sizeof(VkImage);
+    *initInfo.pSwapChainImageViews = malloc(initInfo.swapChainImageViewsCount * sizeof(VkImageView));
+
+    for (int i = 0; i < initInfo.swapChainImageViewsCount; i++) {
+        VkImageViewCreateInfo createInfo = {
+            .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+
+            .image = *initInfo.pSwapChainImages[i],
+
+            .viewType = VK_IMAGE_TYPE_2D,
+            .format = *initInfo.pSwapChainImageFormat,
+
+            // This lets us swizzle the color channels around. For example, if we mapped all of the channels to the red channel, we'd have a monochrome texture
+            .components.r = VK_COMPONENT_SWIZZLE_IDENTITY,
+            .components.g = VK_COMPONENT_SWIZZLE_IDENTITY,
+            .components.b = VK_COMPONENT_SWIZZLE_IDENTITY,
+            .components.a = VK_COMPONENT_SWIZZLE_IDENTITY,
+
+            // This lets us describe what the image's purpose is and which part of the image should be accessed
+            // Our images will be used as color targets without any mipmapping levels or multiple layers, so we use this for now
+            .subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+            .subresourceRange.baseMipLevel = 0,
+            .subresourceRange.levelCount = 1,
+            .subresourceRange.baseArrayLayer = 0,
+            .subresourceRange.layerCount = 1
+        };
+
+        if (vkCreateImageView(*initInfo.pDevice, &createInfo, NULL, initInfo.pSwapChainImageViews[i]) != VK_SUCCESS) { return EXIT_FAILURE; }
+    }
+
+    return EXIT_SUCCESS;
+}
+
+VkShaderModule createShaderModule (bytecodeInfo info) {
+    uint32_t *code;
+    memcpy(&code, info.code, info.size); // I really hope this works and it doesn't become a huge issue
+
+    VkShaderModuleCreateInfo createInfo = {
+        .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
+
+        .codeSize = info.size,
+        .pCode = code
+    };
+}
+
+int createGraphicsPipeline() {
+    bytecodeInfo vertShaderCode = readShaderBytecode("src/engine/shaders/compiled/vert.spv");
+    bytecodeInfo fragShaderCode = readShaderBytecode("src/engine/shaders/compiled/frag.spv");
+
+    return EXIT_SUCCESS;
+}
+
 int initVulkan() {
     if (createInstance() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createSurface() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (pickPhysicalDevice() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createLogicalDevice() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createSwapChain() == EXIT_FAILURE) { return EXIT_FAILURE; }
+    if (createImageViews() == EXIT_FAILURE) { return EXIT_FAILURE; }
+    if (createGraphicsPipeline() == EXIT_FAILURE) { return EXIT_FAILURE; }
 
     return EXIT_SUCCESS;
 }
