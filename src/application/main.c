@@ -33,6 +33,8 @@ int main() {
     VkExtent2D swapChainExtent;
     VkImageView *swapChainImageViews;
 
+    VkPipelineLayout pipelineLayout;
+
     InitializingInfo initInfo = {
         .pWindow = &window,
 
@@ -48,8 +50,10 @@ int main() {
         .pSwapChainImages = &swapChainImages,
         .pSwapChainImageFormat = &swapChainImageFormat,
         .pSwapChainExtent = &swapChainExtent,
-        .pSwapChainImageViews = &swapChainImageViews//,
-        // .swapChainImageViewsCount // doesn't need to be set yet
+        .pSwapChainImageViews = &swapChainImageViews,
+        .swapChainImageViewsCount = 0,
+
+        .pPipelineLayout = &pipelineLayout
     };
 
     if (initialize(initInfo) == EXIT_SUCCESS) { printf("Initialized properly!\n"); }

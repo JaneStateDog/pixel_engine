@@ -35,6 +35,8 @@ typedef struct {
     VkExtent2D *pSwapChainExtent;
     VkImageView **pSwapChainImageViews;
     uint32_t swapChainImageViewsCount;
+
+    VkPipelineLayout *pPipelineLayout;
 } InitializingInfo;
 
 

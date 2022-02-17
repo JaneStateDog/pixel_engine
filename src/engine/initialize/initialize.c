@@ -477,7 +477,7 @@ int createImageViews() {
     return EXIT_SUCCESS;
 }
 
-VkShaderModule createShaderModule (bytecodeInfo info) {
+VkShaderModule createShaderModule(bytecodeInfo info) {
     uint32_t *code;
     memcpy(&code, info.code, info.size); // I really hope this works and it doesn't become a huge issue
 
@@ -487,11 +487,211 @@ VkShaderModule createShaderModule (bytecodeInfo info) {
         .codeSize = info.size,
         .pCode = code
     };
+
+    VkShaderModule shaderModule;
+    vkCreateShaderModule(*initInfo.pDevice, &createInfo, NULL, &shaderModule);
+
+    free(info.code);
+
+    return shaderModule;
 }
 
 int createGraphicsPipeline() {
-    bytecodeInfo vertShaderCode = readShaderBytecode("src/engine/shaders/compiled/vert.spv");
-    bytecodeInfo fragShaderCode = readShaderBytecode("src/engine/shaders/compiled/frag.spv");
+    VkShaderModule vertShaderModule = createShaderModule(readShaderBytecode("src/engine/shaders/compiled/vert.spv"));
+    VkShaderModule fragShaderModule = createShaderModule(readShaderBytecode("src/engine/shaders/compiled/frag.spv"));
+
+    VkPipelineShaderStageCreateInfo vertShaderStageInfo = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+
+        .stage = VK_SHADER_STAGE_VERTEX_BIT,
+        .module = vertShaderModule,
+        .pName = "main"
+    };
+
+    VkPipelineShaderStageCreateInfo fragShaderStageInfo = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+
+        .stage = VK_SHADER_STAGE_FRAGMENT_BIT,
+        .module = fragShaderModule,
+        .pName = "main"
+    };
+
+    VkPipelineShaderStageCreateInfo shaderStages[] = {
+        vertShaderStageInfo,
+        fragShaderModule
+    };
+
+    vkDestroyShaderModule(*initInfo.pDevice, vertShaderModule, NULL);
+    vkDestroyShaderModule(*initInfo.pDevice, fragShaderModule, NULL);
+
+
+    VkPipelineVertexInputStateCreateInfo vertexInputInfo = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
+
+        .vertexBindingDescriptionCount = 0,
+        .pVertexBindingDescriptions = NULL,
+        .vertexAttributeDescriptionCount = 0,
+        .pVertexAttributeDescriptions = NULL
+    };
+
+
+    VkPipelineInputAssemblyStateCreateInfo inputAssembly = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO,
+
+        /*
+        - VK_PRIMITIVE_TOPOLOGY_POINT_LIST: points from vertices
+        - VK_PRIMITIVE_TOPOLOGY_LINE_LIST: line from every 2 vertices without reuse
+        - VK_PRIMITIVE_TOPOLOGY_LINE_STRIP: the end vertex of every line is used as start vertex for the next line
+        - VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST: triangle from every 3 vertices without reuse
+        - VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP: the second and third vertex of every triangle are used as first two vertices of the next triangleVK_PRIMITIVE_TOPOLOGY_POINT_LIST: points from vertices
+        - VK_PRIMITIVE_TOPOLOGY_LINE_LIST: line from every 2 vertices without reuse
+        - VK_PRIMITIVE_TOPOLOGY_LINE_STRIP: the end vertex of every line is used as start vertex for the next line
+        - VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST: triangle from every 3 vertices without reuse
+        - VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP: the second and third vertex of every triangle are used as first two vertices of the next triangle
+        */
+        .topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
+        // If we set this to true then it's possible to break up lines and triangles in the _STRIP topology modes by using a special index of 0xFFFF or 0xFFFFFFFF
+        .primitiveRestartEnable = VK_FALSE
+    };
+
+
+    VkViewport viewport = {
+        .x = 0.0f,
+        .y = 0.0f,
+
+        .width = initInfo.pSwapChainExtent->width,
+        .height = initInfo.pSwapChainExtent->height,
+
+        .minDepth = 0.0f,
+        .maxDepth = 1.0f
+    };
+
+    VkRect2D scissor = {
+        .offset = { 0, 0 },
+        .extent = *initInfo.pSwapChainExtent
+    };
+
+    VkPipelineViewportStateCreateInfo viewportState = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO,
+
+        .viewportCount = 1,
+        .pViewports = &viewport,
+
+        .scissorCount = 1,
+        .pScissors = &scissor
+    };
+
+
+    VkPipelineRasterizationStateCreateInfo rasterizer = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO,
+
+        // If set to true then the fragments that are beyond the near and far planes are clamped to them as opposed to ignoring them
+        .depthClampEnable = VK_FALSE,
+        // If set to true then geometry never passes through the rasterizer stage. This pretty much disables any output to the framebuffer
+        .rasterizerDiscardEnable = VK_FALSE,
+
+        /*
+        - VK_POLYGON_MODE_FILL: fill the area of the polygon with fragments
+        - VK_POLYGON_MODE_LINE: polygon edges are drawn as lines
+        - VK_POLYGON_MODE_POINT: polygon vertices are drawn as points
+        */
+        .polygonMode = VK_POLYGON_MODE_FILL,
+        
+        .lineWidth = 1.0f,
+
+        // Determines the type of face culling to use. You can disable culling, cull the front faces, cull the back faces, or both
+        .cullMode = VK_CULL_MODE_BACK_BIT,
+        // Specifies the vertex order for faces to be considered front-facing and can be clockwise or counterclockwise
+        .frontFace = VK_FRONT_FACE_CLOCKWISE,
+
+        // The rasteruzer can alter the depth values by adding a constant value or biasing them based on a frament's slope. This is sometimes used for shadow mapping, but we're not using it for now
+        .depthBiasEnable = VK_FALSE,
+        .depthBiasConstantFactor = 0.0f,
+        .depthBiasClamp = 0.0f,
+        .depthBiasSlopeFactor = 0.0f
+    };
+
+
+    // Multisampling is one of the ways to preform anti-aliasing. Enabling it requires enabling a GPU feature. For now we will leave it disabled and touch it later
+    VkPipelineMultisampleStateCreateInfo multisampling = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO,
+
+        .sampleShadingEnable = VK_FALSE,
+        .rasterizationSamples = VK_SAMPLE_COUNT_1_BIT,
+        .minSampleShading = 1.0f,
+        .pSampleMask = NULL,
+        .alphaToCoverageEnable = VK_FALSE,
+        .alphaToOneEnable = VK_FALSE
+    };
+
+
+    // Insert VkPipelineDepthStencilStateCreateInfo stuff here later
+
+
+    VkPipelineColorBlendAttachmentState colorBlendAttachment = {
+        .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT,
+        .blendEnable = VK_FALSE,
+        .srcColorBlendFactor = VK_BLEND_FACTOR_ONE,
+        .dstColorBlendFactor = VK_BLEND_FACTOR_ZERO,
+        .colorBlendOp = VK_BLEND_OP_ADD,
+        .srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE,
+        .dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO,
+        .alphaBlendOp = VK_BLEND_OP_ADD
+    };
+
+    VkPipelineColorBlendStateCreateInfo colorBlending = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO,
+
+        .logicOpEnable = VK_FALSE,
+        .logicOp = VK_LOGIC_OP_COPY,
+        
+        .attachmentCount = 1,
+        .pAttachments = &colorBlendAttachment,
+
+        .blendConstants[0] = 0.0f,
+        .blendConstants[1] = 0.0f,
+        .blendConstants[2] = 0.0f,
+        .blendConstants[3] = 0.0f
+    };
+
+
+    // Here we set some dynamic states. Some of the data we've put into all the structs in this function can be changed without recreating the pipeline
+    // This dynamic state create info struct specifies which states we can change without recreating the pipeline
+    // This will cause the configuration of these values to be ignored and we will be required to specify the data at drawing time
+    // I believe for now we want to ignore this, but maybe we'll touch on it later
+    /*
+    VkDynamicState dynamicStates[] = {
+        VK_DYNAMIC_STATE_VIEWPORT,
+        VK_DYNAMIC_STATE_LINE_WIDTH
+    };
+
+    VkPipelineDynamicStateCreateInfo dynamicState = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO,
+
+        .dynamicStateCount = 2,
+        .pDynamicStates = dynamicStates
+    };
+    */
+
+
+    // We can use uniform values in shaders, which are globals similar to the dynamic state variables, that can be changed at drawing time to alter the behavior of our shaders without having to recreate them
+    // They are commonly used to pass the transformation matrix to the vertex shader or to create texture samplers in the fragment shader
+    // We need to specify these uniform values during pipeline creation
+    // Even though we are not going to use them for now, it's still required that we at least create an empty pipeline layout (a pipeline layout being what specifies the uniform values)
+    VkPipelineLayoutCreateInfo pipelineLayoutInfo = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
+
+        .setLayoutCount = 0,
+        .pSetLayouts = NULL,
+        .pushConstantRangeCount = 0,
+        .pPushConstantRanges = NULL
+    };
+
+    if (vkCreatePipelineLayout(*initInfo.pDevice, &pipelineLayoutInfo, NULL, initInfo.pPipelineLayout) != VK_SUCCESS) { return EXIT_FAILURE; }
+
+
+    //vkDestroyShaderModule(*initInfo.pDevice, vertShaderModule, NULL);
+    //vkDestroyShaderModule(*initInfo.pDevice, fragShaderModule, NULL);
 
     return EXIT_SUCCESS;
 }
