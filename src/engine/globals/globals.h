@@ -17,35 +17,50 @@ extern const uint32_t VULKAN_API_VERSION;
 extern const int WIN_WIDTH;
 extern const int WIN_HEIGHT;
 
+extern const int MAX_FRAMES_IN_FLIGHT;
+
 
 typedef struct {
-    SDL_Window **pWindow;
+    SDL_Window *window;
 
-    VkInstance *pInstance;
-    VkSurfaceKHR *pSurface;
-    VkPhysicalDevice *pPhysicalDevice;
-    VkDevice *pDevice;
+    VkInstance instance;
+    VkSurfaceKHR surface;
+    VkPhysicalDevice physicalDevice;
+    VkDevice device;
 
-    VkQueue *pGraphicsQueue;
-    VkQueue *pPresentQueue;
+    VkQueue graphicsQueue;
+    VkQueue presentQueue;
 
-    VkSwapchainKHR *pSwapChain;
-    VkImage **pSwapChainImages;
-    VkFormat *pSwapChainImageFormat;
-    VkExtent2D *pSwapChainExtent;
-    VkImageView **pSwapChainImageViews;
+    VkSwapchainKHR swapChain;
+    VkImage *swapChainImages;
+    uint32_t swapChainImagesCount;
+    VkFormat swapChainImageFormat;
+    VkExtent2D swapChainExtent;
+    VkImageView *swapChainImageViews;
     uint32_t swapChainImageViewsCount;
 
-    VkRenderPass *pRenderPass;
-    VkPipelineLayout *pPipelineLayout;
-    VkPipeline *pGraphicsPipeline;
+    VkRenderPass renderPass;
+    VkPipelineLayout pipelineLayout;
+    VkPipeline graphicsPipeline;
 
-    VkFramebuffer **pSwapChainFramebuffers;
+    VkFramebuffer *swapChainFramebuffers;
     uint32_t swapChainFramebuffersCount;
 
-    VkCommandPool *pCommandPool;
-    VkCommandBuffer **pCommandBuffers;
+    VkCommandPool commandPool;
+    VkCommandBuffer *commandBuffers;
     uint32_t commandBuffersCount;
+
+    VkSemaphore *imageAvailableSemaphores;
+    VkSemaphore *renderFinishedSemaphores;
+    uint32_t imageAvailableSemaphoresCount;
+    uint32_t renderFinishedSemaphoresCount;
+
+    VkFence *inFlightFences;
+    VkFence *imagesInFlight;
+    uint32_t inFlightFencesCount;
+    uint32_t imagesInFlightCount;
+
+    uint32_t currentFrame;
 } InitializingInfo;
 
 

@@ -8,39 +8,41 @@
 #include <stdlib.h>
 
 
-InitializingInfo initInfo = {};
-
-
 int cleanup(InitializingInfo *tInitInfo) {
-    initInfo = *tInitInfo;
+    InitializingInfo *initInfo = tInitInfo;
 
 
-    vkDestroySurfaceKHR(*initInfo.pInstance, *initInfo.pSurface, NULL);
+    vkDestroySurfaceKHR(initInfo->instance, initInfo->surface, NULL);
 
-    vkDestroyInstance(*initInfo.pInstance, NULL);
+    vkDestroyInstance(initInfo->instance, NULL);
 
-    vkDestroySwapchainKHR(*initInfo.pDevice, *initInfo.pSwapChain, NULL);
+    vkDestroySwapchainKHR(initInfo->device, initInfo->swapChain, NULL);
 
-    for (int i = 0; i < initInfo.swapChainFramebuffersCount; i++) {
-        vkDestroyFramebuffer(*initInfo.pDevice, *initInfo.pSwapChainFramebuffers[i], NULL);
+    for (int i = 0; i < initInfo->swapChainFramebuffersCount; i++) {
+        vkDestroyFramebuffer(initInfo->device, initInfo->swapChainFramebuffers[i], NULL);
     }
-    for (int i = 0; i < initInfo.swapChainImageViewsCount; i++) {
-        vkDestroyImageView(*initInfo.pDevice, *initInfo.pSwapChainImageViews[i], NULL);
+    for (int i = 0; i < initInfo->swapChainImageViewsCount; i++) {
+        vkDestroyImageView(initInfo->device, initInfo->swapChainImageViews[i], NULL);
     }
 
-    vkDestroyPipeline(*initInfo.pDevice, *initInfo.pGraphicsPipeline, NULL);
-    vkDestroyPipelineLayout(*initInfo.pDevice, *initInfo.pPipelineLayout, NULL);
-    vkDestroyRenderPass(*initInfo.pDevice, *initInfo.pRenderPass, NULL);
+    vkDestroyPipeline(initInfo->device, initInfo->graphicsPipeline, NULL);
+    vkDestroyPipelineLayout(initInfo->device, initInfo->pipelineLayout, NULL);
+    vkDestroyRenderPass(initInfo->device, initInfo->renderPass, NULL);
 
-    vkDestroyCommandPool(*initInfo.pDevice, *initInfo.pCommandPool, NULL);
+    vkDestroyCommandPool(initInfo->device, initInfo->commandPool, NULL);
 
-    vkDestroyDevice(*initInfo.pDevice, NULL);
+    for (int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+        vkDestroySemaphore(initInfo->device, initInfo->imageAvailableSemaphores[i], NULL);
+        vkDestroySemaphore(initInfo->device, initInfo->renderFinishedSemaphores[i], NULL);
+
+        vkDestroyFence(initInfo->device, initInfo->inFlightFences[i], NULL);
+    }
+
+    vkDestroyDevice(initInfo->device, NULL);
 
 
-    SDL_DestroyWindow(*initInfo.pWindow);
+    SDL_DestroyWindow(initInfo->window);
 
-
-    *tInitInfo = initInfo;
 
     return EXIT_SUCCESS;
 }

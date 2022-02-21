@@ -26,13 +26,13 @@ const char * requiredExtensions[REQUIRED_EXTENSIONS_COUNT] = {
 };
 
 
-InitializingInfo initInfo = {};
+InitializingInfo *initInfo;
 
 
 int initWindow() {
     SDL_Init(SDL_INIT_VIDEO);
-    *(initInfo.pWindow) = SDL_CreateWindow(APPLICATION_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_VULKAN);
-    if (*(initInfo.pWindow) == NULL) { return EXIT_FAILURE; }
+    initInfo->window = SDL_CreateWindow(APPLICATION_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_VULKAN);
+    if (initInfo->window == NULL) { return EXIT_FAILURE; }
 
     return EXIT_SUCCESS;
 }
@@ -80,9 +80,9 @@ int createInstance() {
     // In the future if we need to add more extensions, we should rewrite this section of code to account for that
     // -- Get the extensions SDL needs
     unsigned int SDLExtensionsCount = 0;
-    if (!SDL_Vulkan_GetInstanceExtensions(*(initInfo.pWindow), &SDLExtensionsCount, NULL)) { return EXIT_FAILURE; }
+    if (!SDL_Vulkan_GetInstanceExtensions(initInfo->window, &SDLExtensionsCount, NULL)) { return EXIT_FAILURE; }
     const char * *SDLExtenions = malloc(SDLExtensionsCount * sizeof(const char *));
-    if (!SDL_Vulkan_GetInstanceExtensions(*(initInfo.pWindow), &SDLExtensionsCount, SDLExtenions)) { return EXIT_FAILURE; }
+    if (!SDL_Vulkan_GetInstanceExtensions(initInfo->window, &SDLExtensionsCount, SDLExtenions)) { return EXIT_FAILURE; }
     // --
 
     // Create the vulkan instance
@@ -102,13 +102,13 @@ int createInstance() {
         #endif
     };
 
-    if (vkCreateInstance(&createInfo, NULL, initInfo.pInstance) != VK_SUCCESS) { return EXIT_FAILURE; }
+    if (vkCreateInstance(&createInfo, NULL, &initInfo->instance) != VK_SUCCESS) { return EXIT_FAILURE; }
 
     return EXIT_SUCCESS;
 }
 
 int createSurface() {
-    if (!SDL_Vulkan_CreateSurface(*initInfo.pWindow, *initInfo.pInstance, initInfo.pSurface)) { return EXIT_FAILURE; }
+    if (!SDL_Vulkan_CreateSurface(initInfo->window, initInfo->instance, &initInfo->surface)) { return EXIT_FAILURE; }
 
 
 
@@ -140,7 +140,7 @@ QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) {
         }
 
         VkBool32 presentSupport = false;
-        vkGetPhysicalDeviceSurfaceSupportKHR(device, i, *initInfo.pSurface, &presentSupport);
+        vkGetPhysicalDeviceSurfaceSupportKHR(device, i, initInfo->surface, &presentSupport);
         if (presentSupport) { 
             indices.presentFamily = i; 
             indices.foundPresentFamily = true;
@@ -190,21 +190,21 @@ typedef struct {
 SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device) {
     SwapChainSupportDetails details;
 
-    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, *initInfo.pSurface, &details.capabilities);
+    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, initInfo->surface, &details.capabilities);
 
     uint32_t formatCount = 0;
-    vkGetPhysicalDeviceSurfaceFormatsKHR(device, *initInfo.pSurface, &formatCount, NULL);
+    vkGetPhysicalDeviceSurfaceFormatsKHR(device, initInfo->surface, &formatCount, NULL);
     if (formatCount > 0) {
         details.formats = malloc(formatCount * sizeof(VkSurfaceFormatKHR));
-        vkGetPhysicalDeviceSurfaceFormatsKHR(device, *initInfo.pSurface, &formatCount, details.formats);
+        vkGetPhysicalDeviceSurfaceFormatsKHR(device, initInfo->surface, &formatCount, details.formats);
     }
     details.formatCount = formatCount;
 
     uint32_t presentModeCount = 0;
-    vkGetPhysicalDeviceSurfacePresentModesKHR(device, *initInfo.pSurface, &presentModeCount, NULL);
+    vkGetPhysicalDeviceSurfacePresentModesKHR(device, initInfo->surface, &presentModeCount, NULL);
     if (presentModeCount > 0) {
         details.presentModes = malloc(presentModeCount * sizeof(VkPresentModeKHR));
-        vkGetPhysicalDeviceSurfacePresentModesKHR(device, *initInfo.pSurface, &presentModeCount, details.presentModes);
+        vkGetPhysicalDeviceSurfacePresentModesKHR(device, initInfo->surface, &presentModeCount, details.presentModes);
     }
     details.presentModeCount = presentModeCount;
 
@@ -240,7 +240,7 @@ VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities) {
         return capabilities.currentExtent;
     } else {
         int width, height;
-        SDL_Vulkan_GetDrawableSize(*initInfo.pWindow, &width, &height);
+        SDL_Vulkan_GetDrawableSize(initInfo->window, &width, &height);
 
         VkExtent2D actualExtent = { 
             .width = width, 
@@ -280,25 +280,25 @@ int rateDeviceSuitability(VkPhysicalDevice device) {
 
 int pickPhysicalDevice() {
     uint32_t deviceCount;
-    vkEnumeratePhysicalDevices(*initInfo.pInstance, &deviceCount, NULL);
+    vkEnumeratePhysicalDevices(initInfo->instance, &deviceCount, NULL);
     if (deviceCount == 0) { return EXIT_FAILURE; }
     VkPhysicalDevice devices[deviceCount];
-    vkEnumeratePhysicalDevices(*initInfo.pInstance, &deviceCount, devices);
+    vkEnumeratePhysicalDevices(initInfo->instance, &deviceCount, devices);
 
     for (int i = 0; i < deviceCount; i++) {
         if (rateDeviceSuitability(devices[i]) >= 4000) {
-            *initInfo.pPhysicalDevice = devices[i];
+            initInfo->physicalDevice = devices[i];
             break;
         }
     }
 
-    if (*initInfo.pPhysicalDevice == VK_NULL_HANDLE) { return EXIT_FAILURE; }
+    if (initInfo->physicalDevice == VK_NULL_HANDLE) { return EXIT_FAILURE; }
 
     return EXIT_SUCCESS;
 }
 
 int createLogicalDevice() {
-    QueueFamilyIndices indices = findQueueFamilies(*initInfo.pPhysicalDevice);
+    QueueFamilyIndices indices = findQueueFamilies(initInfo->physicalDevice);
 
     const uint32_t possibleQueueFamilies[] = {indices.graphicsFamily, indices.presentFamily};
     const uint32_t size = sizeof(possibleQueueFamilies) / sizeof(const uint32_t);
@@ -361,16 +361,16 @@ int createLogicalDevice() {
         #endif
     };
 
-    if (vkCreateDevice(*initInfo.pPhysicalDevice, &createInfo, NULL, initInfo.pDevice) != VK_SUCCESS) { return EXIT_FAILURE; }
+    if (vkCreateDevice(initInfo->physicalDevice, &createInfo, NULL, &initInfo->device) != VK_SUCCESS) { return EXIT_FAILURE; }
 
-    vkGetDeviceQueue(*initInfo.pDevice, indices.graphicsFamily, 0, initInfo.pGraphicsQueue);
-    vkGetDeviceQueue(*initInfo.pDevice, indices.presentFamily, 0, initInfo.pPresentQueue);
+    vkGetDeviceQueue(initInfo->device, indices.graphicsFamily, 0, &initInfo->graphicsQueue);
+    vkGetDeviceQueue(initInfo->device, indices.presentFamily, 0, &initInfo->presentQueue);
 
     return EXIT_SUCCESS;
 }
 
 int createSwapChain() {
-    SwapChainSupportDetails swapChainSupport = querySwapChainSupport(*initInfo.pPhysicalDevice);
+    SwapChainSupportDetails swapChainSupport = querySwapChainSupport(initInfo->physicalDevice);
 
     VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats, swapChainSupport.formatCount);
     VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes, swapChainSupport.presentModeCount);
@@ -388,7 +388,7 @@ int createSwapChain() {
     VkSwapchainCreateInfoKHR createInfo = {
         .sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
         
-        .surface = *initInfo.pSurface,
+        .surface = initInfo->surface,
 
         .minImageCount = imageCount,
         .imageFormat = surfaceFormat.format,
@@ -418,7 +418,7 @@ int createSwapChain() {
 
     // We need to know if we will use EXCLUSIVE mode or CONCURRENT mode for swap chain images that are being used across multiple queue families
     // For now, we will use CONCURRENT if the graphics family is NOT the same as the present family
-    QueueFamilyIndices indices = findQueueFamilies(*initInfo.pPhysicalDevice);
+    QueueFamilyIndices indices = findQueueFamilies(initInfo->physicalDevice);
     uint32_t queueFamilyIndices[] = {indices.graphicsFamily, indices.presentFamily};
 
     if (indices.graphicsFamily != indices.presentFamily) {
@@ -431,30 +431,31 @@ int createSwapChain() {
         createInfo.pQueueFamilyIndices = NULL;
     }
 
-    if (vkCreateSwapchainKHR(*initInfo.pDevice, &createInfo, NULL, initInfo.pSwapChain) != VK_SUCCESS) { return EXIT_FAILURE; }
+    if (vkCreateSwapchainKHR(initInfo->device, &createInfo, NULL, &initInfo->swapChain) != VK_SUCCESS) { return EXIT_FAILURE; }
 
-    vkGetSwapchainImagesKHR(*initInfo.pDevice, *initInfo.pSwapChain, &imageCount, NULL);
-    *initInfo.pSwapChainImages = malloc(imageCount * sizeof(VkImage));
-    vkGetSwapchainImagesKHR(*initInfo.pDevice, *initInfo.pSwapChain, &imageCount, *initInfo.pSwapChainImages);
+    vkGetSwapchainImagesKHR(initInfo->device, initInfo->swapChain, &imageCount, NULL);
+    initInfo->swapChainImages = malloc(imageCount * sizeof(VkImage));
+    vkGetSwapchainImagesKHR(initInfo->device, initInfo->swapChain, &imageCount, initInfo->swapChainImages);
+    initInfo->swapChainImagesCount = imageCount;
 
-    *initInfo.pSwapChainImageFormat = surfaceFormat.format;
-    *initInfo.pSwapChainExtent = extent;
+    initInfo->swapChainImageFormat = surfaceFormat.format;
+    initInfo->swapChainExtent = extent;
 
     return EXIT_SUCCESS;
 }
 
 int createImageViews() {
-    initInfo.swapChainImageViewsCount = sizeof(*initInfo.pSwapChainImages) / sizeof(VkImage);
-    *initInfo.pSwapChainImageViews = malloc(initInfo.swapChainImageViewsCount * sizeof(VkImageView));
+    initInfo->swapChainImageViewsCount = initInfo->swapChainImagesCount;
+    initInfo->swapChainImageViews = malloc(initInfo->swapChainImageViewsCount * sizeof(VkImageView));
 
-    for (int i = 0; i < initInfo.swapChainImageViewsCount; i++) {
+    for (int i = 0; i < initInfo->swapChainImageViewsCount; i++) {
         VkImageViewCreateInfo createInfo = {
             .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
 
-            .image = *initInfo.pSwapChainImages[i],
+            .image = initInfo->swapChainImages[i],
 
             .viewType = VK_IMAGE_TYPE_2D,
-            .format = *initInfo.pSwapChainImageFormat,
+            .format = initInfo->swapChainImageFormat,
 
             // This lets us swizzle the color channels around. For example, if we mapped all of the channels to the red channel, we'd have a monochrome texture
             .components.r = VK_COMPONENT_SWIZZLE_IDENTITY,
@@ -471,7 +472,7 @@ int createImageViews() {
             .subresourceRange.layerCount = 1
         };
 
-        if (vkCreateImageView(*initInfo.pDevice, &createInfo, NULL, initInfo.pSwapChainImageViews[i]) != VK_SUCCESS) { return EXIT_FAILURE; }
+        if (vkCreateImageView(initInfo->device, &createInfo, NULL, &initInfo->swapChainImageViews[i]) != VK_SUCCESS) { return EXIT_FAILURE; }
     }
 
     return EXIT_SUCCESS;
@@ -480,7 +481,7 @@ int createImageViews() {
 
 int createRenderPass() {
     VkAttachmentDescription colorAttachment = {
-        .format = *initInfo.pSwapChainImageFormat,
+        .format = initInfo->swapChainImageFormat,
         .samples = VK_SAMPLE_COUNT_1_BIT, // We're not doing anything with multisampling yet, so we will stick to 1 sample for now
 
         // loadOp and storeOp determine what to do with the data in the attachment before rendering and after rendering
@@ -546,6 +547,17 @@ int createRenderPass() {
         .pColorAttachments = &colorAttachmentRef
     };
 
+    VkSubpassDependency dependency = {
+        .srcSubpass = VK_SUBPASS_EXTERNAL,
+        .dstSubpass = 0,
+
+        .srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+        .srcAccessMask = 0,
+
+        .dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+        .dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT
+    };
+
     VkRenderPassCreateInfo renderPassInfo = {
         .sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
 
@@ -553,10 +565,13 @@ int createRenderPass() {
         .pAttachments = &colorAttachment,
 
         .subpassCount = 1,
-        .pSubpasses = &subpass
+        .pSubpasses = &subpass,
+
+        .dependencyCount = 1,
+        .pDependencies = &dependency
     };
 
-    if (vkCreateRenderPass(*initInfo.pDevice, &renderPassInfo, NULL, initInfo.pRenderPass) != VK_SUCCESS) { return EXIT_FAILURE; }
+    if (vkCreateRenderPass(initInfo->device, &renderPassInfo, NULL, &initInfo->renderPass) != VK_SUCCESS) { return EXIT_FAILURE; }
 
     return EXIT_SUCCESS;
 }
@@ -570,7 +585,7 @@ VkShaderModule createShaderModule(bytecodeInfo info) {
     };
 
     VkShaderModule shaderModule;
-    vkCreateShaderModule(*initInfo.pDevice, &createInfo, NULL, &shaderModule);
+    vkCreateShaderModule(initInfo->device, &createInfo, NULL, &shaderModule);
 
     free(info.code);
 
@@ -637,8 +652,8 @@ int createGraphicsPipeline() {
         .x = 0.0f,
         .y = 0.0f,
 
-        .width = initInfo.pSwapChainExtent->width,
-        .height = initInfo.pSwapChainExtent->height,
+        .width = initInfo->swapChainExtent.width,
+        .height = initInfo->swapChainExtent.height,
 
         .minDepth = 0.0f,
         .maxDepth = 1.0f
@@ -646,7 +661,7 @@ int createGraphicsPipeline() {
 
     VkRect2D scissor = {
         .offset = { 0, 0 },
-        .extent = *initInfo.pSwapChainExtent
+        .extent = initInfo->swapChainExtent
     };
 
     VkPipelineViewportStateCreateInfo viewportState = {
@@ -765,7 +780,7 @@ int createGraphicsPipeline() {
         .pPushConstantRanges = NULL
     };
 
-    if (vkCreatePipelineLayout(*initInfo.pDevice, &pipelineLayoutInfo, NULL, initInfo.pPipelineLayout) != VK_SUCCESS) { return EXIT_FAILURE; }
+    if (vkCreatePipelineLayout(initInfo->device, &pipelineLayoutInfo, NULL, &initInfo->pipelineLayout) != VK_SUCCESS) { return EXIT_FAILURE; }
 
 
     VkGraphicsPipelineCreateInfo pipelineInfo = {
@@ -783,9 +798,9 @@ int createGraphicsPipeline() {
         .pColorBlendState = &colorBlending,
         .pDynamicState = NULL,
 
-        .layout = *initInfo.pPipelineLayout,
+        .layout = initInfo->pipelineLayout,
 
-        .renderPass = *initInfo.pRenderPass,
+        .renderPass = initInfo->renderPass,
         // Specifies the index of the sub pass where the graphics pipeline will be used
         .subpass = 0,
 
@@ -803,39 +818,39 @@ int createGraphicsPipeline() {
     // A pipeline cache can be used to store and reuse data relevant to pipeline creation across multiple calls to vkCreateGraphicsPipelines and even across program executions if the cache is stored to a file
     // This makes it possible to significantly speed up pipeline creation at a later time
     // For now we don't use this feature, but it will most likely be very useful later on
-    if (vkCreateGraphicsPipelines(*initInfo.pDevice, VK_NULL_HANDLE, 1, &pipelineInfo, NULL, initInfo.pGraphicsPipeline) != VK_SUCCESS) { return EXIT_FAILURE; }
+    if (vkCreateGraphicsPipelines(initInfo->device, VK_NULL_HANDLE, 1, &pipelineInfo, NULL, &initInfo->graphicsPipeline) != VK_SUCCESS) { return EXIT_FAILURE; }
 
 
     // These need to be at the end of this function because the shader modules are still used during the creation of the graphics pipeline
-    vkDestroyShaderModule(*initInfo.pDevice, vertShaderModule, NULL);
-    vkDestroyShaderModule(*initInfo.pDevice, fragShaderModule, NULL);
+    vkDestroyShaderModule(initInfo->device, vertShaderModule, NULL);
+    vkDestroyShaderModule(initInfo->device, fragShaderModule, NULL);
 
     return EXIT_SUCCESS;
 }
 
 
 int createFramebuffers() {
-    initInfo.swapChainFramebuffersCount = initInfo.swapChainImageViewsCount;
-    *initInfo.pSwapChainFramebuffers = malloc(initInfo.swapChainFramebuffersCount * sizeof(VkFramebuffer));
+    initInfo->swapChainFramebuffersCount = initInfo->swapChainImageViewsCount;
+    initInfo->swapChainFramebuffers = malloc(initInfo->swapChainFramebuffersCount * sizeof(VkFramebuffer));
 
-    for (int i = 0; i < initInfo.swapChainImageViewsCount; i++) {
+    for (int i = 0; i < initInfo->swapChainFramebuffersCount; i++) {
         VkImageView attachments[] = {
-            *initInfo.pSwapChainImageViews[i]
+            initInfo->swapChainImageViews[i]
         };
 
         VkFramebufferCreateInfo framebufferInfo = {
             .sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO,
 
-            .renderPass = *initInfo.pRenderPass,
+            .renderPass = initInfo->renderPass,
             .attachmentCount = 1,
             .pAttachments = attachments,
             
-            .width = initInfo.pSwapChainExtent->width,
-            .height = initInfo.pSwapChainExtent->height,
+            .width = initInfo->swapChainExtent.width,
+            .height = initInfo->swapChainExtent.height,
             .layers = 1
         };
 
-        if (vkCreateFramebuffer(*initInfo.pDevice, &framebufferInfo, NULL, initInfo.pSwapChainFramebuffers[i] ) != VK_SUCCESS) { return EXIT_FAILURE; }
+        if (vkCreateFramebuffer(initInfo->device, &framebufferInfo, NULL, &initInfo->swapChainFramebuffers[i]) != VK_SUCCESS) { return EXIT_FAILURE; }
 
     }
 
@@ -844,7 +859,7 @@ int createFramebuffers() {
 
 
 int createCommandPool() {
-    QueueFamilyIndices queueFamilyIndices = findQueueFamilies(*initInfo.pPhysicalDevice);
+    QueueFamilyIndices queueFamilyIndices = findQueueFamilies(initInfo->physicalDevice);
 
     VkCommandPoolCreateInfo poolInfo = {
         .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
@@ -853,19 +868,19 @@ int createCommandPool() {
         .flags = 0
     };
 
-    if (vkCreateCommandPool(*initInfo.pDevice, &poolInfo, NULL, initInfo.pCommandPool) != VK_SUCCESS) { return EXIT_FAILURE; }
+    if (vkCreateCommandPool(initInfo->device, &poolInfo, NULL, &initInfo->commandPool) != VK_SUCCESS) { return EXIT_FAILURE; }
 
     return EXIT_SUCCESS;
 }
 
 int createCommandBuffers() {
-    initInfo.commandBuffersCount = initInfo.swapChainFramebuffersCount;
-    *initInfo.pCommandBuffers = malloc(initInfo.commandBuffersCount * sizeof(VkCommandBuffer));
+    initInfo->commandBuffersCount = initInfo->swapChainFramebuffersCount;
+    initInfo->commandBuffers = malloc(initInfo->commandBuffersCount * sizeof(VkCommandBuffer));
 
     VkCommandBufferAllocateInfo allocInfo = {
         .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
 
-        .commandPool = *initInfo.pCommandPool,
+        .commandPool = initInfo->commandPool,
 
         /*
         - VK_COMMAND_BUFFER_LEVEL_PRIMARY: can be submitted to a queue for execution but cannot be called from other command buffers
@@ -873,12 +888,12 @@ int createCommandBuffers() {
         */
         .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
         
-        .commandBufferCount = initInfo.commandBuffersCount
+        .commandBufferCount = initInfo->commandBuffersCount
     };
 
-    if (vkAllocateCommandBuffers(*initInfo.pDevice, &allocInfo, *initInfo.pCommandBuffers) != VK_SUCCESS) { return EXIT_FAILURE; }
+    if (vkAllocateCommandBuffers(initInfo->device, &allocInfo, initInfo->commandBuffers) != VK_SUCCESS) { return EXIT_FAILURE; }
 
-    for (int i = 0; i < initInfo.commandBuffersCount; i++) {
+    for (int i = 0; i < initInfo->commandBuffersCount; i++) {
         // --- Begin recording the command buffer ---
         VkCommandBufferBeginInfo beginInfo = {
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
@@ -893,20 +908,19 @@ int createCommandBuffers() {
             // Specifies which state to inherit from the calling primary command buffers. For now we don't need this
             .pInheritanceInfo = NULL
         };
-        if (vkBeginCommandBuffer(*initInfo.pCommandBuffers[i], &beginInfo) != VK_SUCCESS) { return EXIT_FAILURE; }
-
+        if (vkBeginCommandBuffer(initInfo->commandBuffers[i], &beginInfo) != VK_SUCCESS) { return EXIT_FAILURE; }
 
         //  --- Begin render pass ---
         VkClearValue clearColor = { { { 0.0f, 0.0f, 0.0f, 1.0f } } };
         VkRenderPassBeginInfo renderPassInfo = {
             .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
 
-            .renderPass = *initInfo.pRenderPass,
-            .framebuffer = *initInfo.pSwapChainFramebuffers[i],
+            .renderPass = initInfo->renderPass,
+            .framebuffer = initInfo->swapChainFramebuffers[i],
 
             // This should match the size of the attachments for the best performance        
             .renderArea.offset = { 0, 0 },
-            .renderArea.extent = *initInfo.pSwapChainExtent,
+            .renderArea.extent = initInfo->swapChainExtent,
 
             // We're using black with 100% opacity for the clear color
             .clearValueCount = 1,
@@ -916,21 +930,58 @@ int createCommandBuffers() {
         - VK_SUBPASS_CONTENTS_INLINE: the render pass commands will be embedded in the primary command buffer itself and no secondary command buffer will be executed
         - VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS: the render pass commands will be executed from secondary command buffers
         We're not using secondary command buffers right now, so we use the first option */
-        vkCmdBeginRenderPass(*initInfo.pCommandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+        vkCmdBeginRenderPass(initInfo->commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
     
 
-        vkCmdBindPipeline(*initInfo.pCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, *initInfo.pGraphicsPipeline);
+        vkCmdBindPipeline(initInfo->commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, initInfo->graphicsPipeline);
 
         // Tell Vulkan to draw us a triangle
-        vkCmdDraw(*initInfo.pCommandBuffers[i], 3, 1, 0, 0);
+        vkCmdDraw(initInfo->commandBuffers[i], 3, 1, 0, 0);
 
         
         // --- End render pass ---
-        vkCmdEndRenderPass(*initInfo.pCommandBuffers[i]);
+        vkCmdEndRenderPass(initInfo->commandBuffers[i]);
 
 
         // --- Finish recording the command buffer ---
-        if (vkEndCommandBuffer(*initInfo.pCommandBuffers[i]) != VK_SUCCESS) { return EXIT_FAILURE; }
+        if (vkEndCommandBuffer(initInfo->commandBuffers[i]) != VK_SUCCESS) { return EXIT_FAILURE; }
+    }
+
+    return EXIT_SUCCESS;
+}
+
+
+int createSyncObjects() {
+    initInfo->imageAvailableSemaphoresCount = MAX_FRAMES_IN_FLIGHT;
+    initInfo->imageAvailableSemaphores = malloc(initInfo->imageAvailableSemaphoresCount * sizeof(VkSemaphore));
+    initInfo->renderFinishedSemaphoresCount = MAX_FRAMES_IN_FLIGHT;
+    initInfo->renderFinishedSemaphores = malloc(initInfo->renderFinishedSemaphoresCount * sizeof(VkSemaphore));
+
+    initInfo->inFlightFencesCount = MAX_FRAMES_IN_FLIGHT;
+    initInfo->inFlightFences = malloc(initInfo->inFlightFencesCount * sizeof(VkFence));
+
+    initInfo->imagesInFlightCount = initInfo->swapChainImagesCount;
+    initInfo->imagesInFlight = malloc(initInfo->imagesInFlightCount * sizeof(VkFence));
+    for (int i = 0; i < initInfo->imagesInFlightCount; i++) { initInfo->imagesInFlight[i] = VK_NULL_HANDLE; }
+
+    VkSemaphoreCreateInfo semaphoreInfo = {
+        .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO
+    };
+
+    VkFenceCreateInfo fenceInfo = {
+        .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO,
+
+        .flags = VK_FENCE_CREATE_SIGNALED_BIT
+    };
+
+    for (int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+        if (
+            vkCreateSemaphore(initInfo->device, &semaphoreInfo, NULL, &initInfo->imageAvailableSemaphores[i]) != VK_SUCCESS ||
+            vkCreateSemaphore(initInfo->device, &semaphoreInfo, NULL, &initInfo->renderFinishedSemaphores[i]) != VK_SUCCESS ||
+
+            vkCreateFence(initInfo->device, &fenceInfo, NULL, &initInfo->inFlightFences[i]) != VK_SUCCESS
+        ) { return EXIT_FAILURE; }
+
     }
 
     return EXIT_SUCCESS;
@@ -955,20 +1006,20 @@ int initVulkan() {
     if (createCommandPool() == EXIT_FAILURE) { return EXIT_FAILURE;}
     if (createCommandBuffers() == EXIT_FAILURE) { return EXIT_FAILURE; }
 
+    if (createSyncObjects() == EXIT_FAILURE) { return EXIT_FAILURE; }
+
 
     return EXIT_SUCCESS;
 }
 
 
 int initialize(InitializingInfo *tInitInfo) {
-    initInfo = *tInitInfo;
+    initInfo = tInitInfo;
 
 
     if (initWindow() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (initVulkan() == EXIT_FAILURE) { return EXIT_FAILURE; }
 
-
-    *tInitInfo = initInfo;
 
     return EXIT_SUCCESS;
 }

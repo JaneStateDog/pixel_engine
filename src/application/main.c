@@ -18,60 +18,6 @@ const int WIN_HEIGHT = 720;
 
 int main() {
     // --- Initialize ---
-    /*SDL_Window *window;
-
-    VkInstance instance;
-    VkSurfaceKHR surface;
-    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-    VkDevice device;
-
-    VkQueue graphicsQueue;
-    VkQueue presentQueue;
-
-    VkSwapchainKHR swapChain;
-    VkImage *swapChainImages;
-    VkFormat swapChainImageFormat;
-    VkExtent2D swapChainExtent;
-    VkImageView *swapChainImageViews;
-
-    VkRenderPass renderPass;
-    VkPipelineLayout pipelineLayout;
-    VkPipeline graphicsPipeline;
-
-    VkFramebuffer *swapChainFramebuffers;
-
-    VkCommandPool commandPool;
-    VkCommandBuffer *commandBuffers;
-
-    InitializingInfo initInfo = {
-        .pWindow = &window,
-
-        .pInstance = &instance,
-        .pSurface = &surface,
-        .pPhysicalDevice = &physicalDevice,
-        .pDevice = &device,
-
-        .pGraphicsQueue = &graphicsQueue,
-        .pPresentQueue = &presentQueue,
-
-        .pSwapChain = &swapChain,
-        .pSwapChainImages = &swapChainImages,
-        .pSwapChainImageFormat = &swapChainImageFormat,
-        .pSwapChainExtent = &swapChainExtent,
-        .pSwapChainImageViews = &swapChainImageViews,
-        .swapChainImageViewsCount = 0,
-
-        .pRenderPass = &renderPass,
-        .pPipelineLayout = &pipelineLayout,
-        .pGraphicsPipeline = &graphicsPipeline,
-
-        .pSwapChainFramebuffers = &swapChainFramebuffers,
-        .swapChainFramebuffersCount = 0,
-
-        .pCommandPool = &commandPool,
-        .pCommandBuffers = &commandBuffers,
-        .commandBuffersCount = 0
-    };*/
     InitializingInfo initInfo = {  };
 
     if (initialize(&initInfo) == EXIT_SUCCESS) { printf("Initialized properly!\n"); }
