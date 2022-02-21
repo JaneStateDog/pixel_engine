@@ -37,6 +37,8 @@ int main() {
     VkPipelineLayout pipelineLayout;
     VkPipeline graphicsPipeline;
 
+    VkFramebuffer *swapChainFramebuffers;
+
     InitializingInfo initInfo = {
         .pWindow = &window,
 
@@ -57,7 +59,10 @@ int main() {
 
         .pRenderPass = &renderPass,
         .pPipelineLayout = &pipelineLayout,
-        .pGraphicsPipeline = &graphicsPipeline
+        .pGraphicsPipeline = &graphicsPipeline,
+
+        .pSwapChainFramebuffers = &swapChainFramebuffers,
+        .swapChainFramebuffersCount = 0
     };
 
     if (initialize(initInfo) == EXIT_SUCCESS) { printf("Initialized properly!\n"); }

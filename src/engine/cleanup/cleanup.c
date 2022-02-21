@@ -14,6 +14,10 @@ int cleanup(InitializingInfo initInfo) {
     vkDestroyInstance(*initInfo.pInstance, NULL);
 
     vkDestroySwapchainKHR(*initInfo.pDevice, *initInfo.pSwapChain, NULL);
+
+    for (int i = 0; i < initInfo.swapChainFramebuffersCount; i++) {
+        vkDestroyFramebuffer(*initInfo.pDevice, *initInfo.pSwapChainFramebuffers[i], NULL);
+    }
     for (int i = 0; i < initInfo.swapChainImageViewsCount; i++) {
         vkDestroyImageView(*initInfo.pDevice, *initInfo.pSwapChainImageViews[i], NULL);
     }

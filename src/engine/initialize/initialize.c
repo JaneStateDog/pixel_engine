@@ -813,6 +813,35 @@ int createGraphicsPipeline() {
     return EXIT_SUCCESS;
 }
 
+
+int createFramebuffers() {
+    initInfo.swapChainFramebuffersCount = initInfo.swapChainImageViewsCount;
+
+    for (int i = 0; i < initInfo.swapChainImageViewsCount; i++) {
+        VkImageView attachments[] = {
+            *initInfo.pSwapChainImageViews[i]
+        };
+
+        VkFramebufferCreateInfo framebufferInfo = {
+            .sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO,
+
+            .renderPass = *initInfo.pRenderPass,
+            .attachmentCount = 1,
+            .pAttachments = attachments,
+            
+            .width = initInfo.pSwapChainExtent->width,
+            .height = initInfo.pSwapChainExtent->height,
+            .layers = 1
+        };
+
+        if (vkCreateFramebuffer(*initInfo.pDevice, &framebufferInfo, NULL, initInfo.pSwapChainFramebuffers[i] != VK_SUCCESS)) { return EXIT_FAILURE; }
+        
+    }
+
+    return EXIT_SUCCESS;
+}
+
+
 int initVulkan() {
     if (createInstance() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createSurface() == EXIT_FAILURE) { return EXIT_FAILURE; }
@@ -822,6 +851,7 @@ int initVulkan() {
     if (createImageViews() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createRenderPass() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createGraphicsPipeline() == EXIT_FAILURE) { return EXIT_FAILURE; }
+    if (createFramebuffers() == EXIT_FAILURE) { return EXIT_FAILURE; }
 
     return EXIT_SUCCESS;
 }

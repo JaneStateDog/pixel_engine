@@ -39,6 +39,9 @@ typedef struct {
     VkRenderPass *pRenderPass;
     VkPipelineLayout *pPipelineLayout;
     VkPipeline *pGraphicsPipeline;
+
+    VkFramebuffer **pSwapChainFramebuffers;
+    uint32_t swapChainFramebuffersCount;
 } InitializingInfo;
 
 
