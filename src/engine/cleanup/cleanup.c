@@ -8,7 +8,13 @@
 #include <stdlib.h>
 
 
-int cleanup(InitializingInfo initInfo) {
+InitializingInfo initInfo = {};
+
+
+int cleanup(InitializingInfo *tInitInfo) {
+    initInfo = *tInitInfo;
+
+
     vkDestroySurfaceKHR(*initInfo.pInstance, *initInfo.pSurface, NULL);
 
     vkDestroyInstance(*initInfo.pInstance, NULL);
@@ -26,11 +32,15 @@ int cleanup(InitializingInfo initInfo) {
     vkDestroyPipelineLayout(*initInfo.pDevice, *initInfo.pPipelineLayout, NULL);
     vkDestroyRenderPass(*initInfo.pDevice, *initInfo.pRenderPass, NULL);
 
+    vkDestroyCommandPool(*initInfo.pDevice, *initInfo.pCommandPool, NULL);
+
     vkDestroyDevice(*initInfo.pDevice, NULL);
 
 
     SDL_DestroyWindow(*initInfo.pWindow);
 
+
+    *tInitInfo = initInfo;
 
     return EXIT_SUCCESS;
 }

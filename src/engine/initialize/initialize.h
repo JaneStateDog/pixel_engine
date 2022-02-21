@@ -7,7 +7,7 @@
 #include <SDL2/SDL.h>
 
 
-int initialize(InitializingInfo tInitInfo);
+int initialize(InitializingInfo *tInitInfo);
 
 
 #endif

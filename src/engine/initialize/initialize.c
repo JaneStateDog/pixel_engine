@@ -816,6 +816,7 @@ int createGraphicsPipeline() {
 
 int createFramebuffers() {
     initInfo.swapChainFramebuffersCount = initInfo.swapChainImageViewsCount;
+    *initInfo.pSwapChainFramebuffers = malloc(initInfo.swapChainFramebuffersCount * sizeof(VkFramebuffer));
 
     for (int i = 0; i < initInfo.swapChainImageViewsCount; i++) {
         VkImageView attachments[] = {
@@ -834,8 +835,102 @@ int createFramebuffers() {
             .layers = 1
         };
 
-        if (vkCreateFramebuffer(*initInfo.pDevice, &framebufferInfo, NULL, initInfo.pSwapChainFramebuffers[i] != VK_SUCCESS)) { return EXIT_FAILURE; }
+        if (vkCreateFramebuffer(*initInfo.pDevice, &framebufferInfo, NULL, initInfo.pSwapChainFramebuffers[i] ) != VK_SUCCESS) { return EXIT_FAILURE; }
+
+    }
+
+    return EXIT_SUCCESS;
+}
+
+
+int createCommandPool() {
+    QueueFamilyIndices queueFamilyIndices = findQueueFamilies(*initInfo.pPhysicalDevice);
+
+    VkCommandPoolCreateInfo poolInfo = {
+        .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+
+        .queueFamilyIndex = queueFamilyIndices.graphicsFamily,
+        .flags = 0
+    };
+
+    if (vkCreateCommandPool(*initInfo.pDevice, &poolInfo, NULL, initInfo.pCommandPool) != VK_SUCCESS) { return EXIT_FAILURE; }
+
+    return EXIT_SUCCESS;
+}
+
+int createCommandBuffers() {
+    initInfo.commandBuffersCount = initInfo.swapChainFramebuffersCount;
+    *initInfo.pCommandBuffers = malloc(initInfo.commandBuffersCount * sizeof(VkCommandBuffer));
+
+    VkCommandBufferAllocateInfo allocInfo = {
+        .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
+
+        .commandPool = *initInfo.pCommandPool,
+
+        /*
+        - VK_COMMAND_BUFFER_LEVEL_PRIMARY: can be submitted to a queue for execution but cannot be called from other command buffers
+        - VK_COMMAND_BUFFER_LEVEL_SECONDARY: cannot be submitted directly but can be called from primary command buffers
+        */
+        .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
         
+        .commandBufferCount = initInfo.commandBuffersCount
+    };
+
+    if (vkAllocateCommandBuffers(*initInfo.pDevice, &allocInfo, *initInfo.pCommandBuffers) != VK_SUCCESS) { return EXIT_FAILURE; }
+
+    for (int i = 0; i < initInfo.commandBuffersCount; i++) {
+        // --- Begin recording the command buffer ---
+        VkCommandBufferBeginInfo beginInfo = {
+            .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
+
+            /*
+            - VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT: the command buffer will be rerecorded right after executing it once
+            - VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT: this is a secondary command buffer that will be entirely within a single render pass
+            - VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT: the command buffer can be resubmitted while it is also already pending execution
+            */
+            .flags = 0,
+            
+            // Specifies which state to inherit from the calling primary command buffers. For now we don't need this
+            .pInheritanceInfo = NULL
+        };
+        if (vkBeginCommandBuffer(*initInfo.pCommandBuffers[i], &beginInfo) != VK_SUCCESS) { return EXIT_FAILURE; }
+
+
+        //  --- Begin render pass ---
+        VkClearValue clearColor = { { { 0.0f, 0.0f, 0.0f, 1.0f } } };
+        VkRenderPassBeginInfo renderPassInfo = {
+            .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
+
+            .renderPass = *initInfo.pRenderPass,
+            .framebuffer = *initInfo.pSwapChainFramebuffers[i],
+
+            // This should match the size of the attachments for the best performance        
+            .renderArea.offset = { 0, 0 },
+            .renderArea.extent = *initInfo.pSwapChainExtent,
+
+            // We're using black with 100% opacity for the clear color
+            .clearValueCount = 1,
+            .pClearValues = &clearColor
+        };
+        /* The final command specifies how the drawing commands within the render pass will be provided
+        - VK_SUBPASS_CONTENTS_INLINE: the render pass commands will be embedded in the primary command buffer itself and no secondary command buffer will be executed
+        - VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS: the render pass commands will be executed from secondary command buffers
+        We're not using secondary command buffers right now, so we use the first option */
+        vkCmdBeginRenderPass(*initInfo.pCommandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+    
+
+        vkCmdBindPipeline(*initInfo.pCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, *initInfo.pGraphicsPipeline);
+
+        // Tell Vulkan to draw us a triangle
+        vkCmdDraw(*initInfo.pCommandBuffers[i], 3, 1, 0, 0);
+
+        
+        // --- End render pass ---
+        vkCmdEndRenderPass(*initInfo.pCommandBuffers[i]);
+
+
+        // --- Finish recording the command buffer ---
+        if (vkEndCommandBuffer(*initInfo.pCommandBuffers[i]) != VK_SUCCESS) { return EXIT_FAILURE; }
     }
 
     return EXIT_SUCCESS;
@@ -845,23 +940,35 @@ int createFramebuffers() {
 int initVulkan() {
     if (createInstance() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createSurface() == EXIT_FAILURE) { return EXIT_FAILURE; }
+
     if (pickPhysicalDevice() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createLogicalDevice() == EXIT_FAILURE) { return EXIT_FAILURE; }
+
     if (createSwapChain() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createImageViews() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (createRenderPass() == EXIT_FAILURE) { return EXIT_FAILURE; }
+
     if (createGraphicsPipeline() == EXIT_FAILURE) { return EXIT_FAILURE; }
+
     if (createFramebuffers() == EXIT_FAILURE) { return EXIT_FAILURE; }
+
+    if (createCommandPool() == EXIT_FAILURE) { return EXIT_FAILURE;}
+    if (createCommandBuffers() == EXIT_FAILURE) { return EXIT_FAILURE; }
+
 
     return EXIT_SUCCESS;
 }
 
 
-int initialize(InitializingInfo tInitInfo) {
-    initInfo = tInitInfo;
+int initialize(InitializingInfo *tInitInfo) {
+    initInfo = *tInitInfo;
+
 
     if (initWindow() == EXIT_FAILURE) { return EXIT_FAILURE; }
     if (initVulkan() == EXIT_FAILURE) { return EXIT_FAILURE; }
+
+
+    *tInitInfo = initInfo;
 
     return EXIT_SUCCESS;
 }

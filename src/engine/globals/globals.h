@@ -42,6 +42,10 @@ typedef struct {
 
     VkFramebuffer **pSwapChainFramebuffers;
     uint32_t swapChainFramebuffersCount;
+
+    VkCommandPool *pCommandPool;
+    VkCommandBuffer **pCommandBuffers;
+    uint32_t commandBuffersCount;
 } InitializingInfo;
 
 

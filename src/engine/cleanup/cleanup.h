@@ -7,7 +7,7 @@
 #include <SDL2/SDL.h>
 
 
-int cleanup(InitializingInfo initInfo);
+int cleanup(InitializingInfo *tInitInfo);
 
 
 #endif

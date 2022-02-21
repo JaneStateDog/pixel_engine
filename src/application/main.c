@@ -17,7 +17,8 @@ const int WIN_WIDTH = 1280;
 const int WIN_HEIGHT = 720;
 
 int main() {
-    SDL_Window *window;
+    // --- Initialize ---
+    /*SDL_Window *window;
 
     VkInstance instance;
     VkSurfaceKHR surface;
@@ -38,6 +39,9 @@ int main() {
     VkPipeline graphicsPipeline;
 
     VkFramebuffer *swapChainFramebuffers;
+
+    VkCommandPool commandPool;
+    VkCommandBuffer *commandBuffers;
 
     InitializingInfo initInfo = {
         .pWindow = &window,
@@ -62,17 +66,27 @@ int main() {
         .pGraphicsPipeline = &graphicsPipeline,
 
         .pSwapChainFramebuffers = &swapChainFramebuffers,
-        .swapChainFramebuffersCount = 0
-    };
+        .swapChainFramebuffersCount = 0,
 
-    if (initialize(initInfo) == EXIT_SUCCESS) { printf("Initialized properly!\n"); }
+        .pCommandPool = &commandPool,
+        .pCommandBuffers = &commandBuffers,
+        .commandBuffersCount = 0
+    };*/
+    InitializingInfo initInfo = {  };
+
+    if (initialize(&initInfo) == EXIT_SUCCESS) { printf("Initialized properly!\n"); }
     else { printf("Failed to initialize!\n"); }
     
-    if (game_loop() == EXIT_SUCCESS) { printf("Game loop ran properly!\n"); }
+
+    // --- Game loop ---
+    if (gameLoop(&initInfo) == EXIT_SUCCESS) { printf("Game loop ran properly!\n"); }
     else { printf("Game loop failed!\n"); }
 
-    if (cleanup(initInfo) == EXIT_SUCCESS) { printf("Cleanup ran properly!\n"); }
+
+    // --- Cleanup ---
+    if (cleanup(&initInfo) == EXIT_SUCCESS) { printf("Cleanup ran properly!\n"); }
     else { printf("Cleanup failed!\n"); }
+
 
     return 0;
 }

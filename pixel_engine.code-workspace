@@ -13,7 +13,8 @@
 			"algorithm": "c",
 			"cleanup.h": "c",
 			"sdl.h": "c",
-			"globals.h": "c"
+			"globals.h": "c",
+			"game_loop.h": "c"
 		}
 	}
 }
